@@ -4,7 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brandist Pi - Portfolio</title>
+    <!-- Google Fonts 및 폰트 적용 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #4f46e5; /* 세련된 인디고 블루 */
+            --primary-light: #e0e7ff;
+            --secondary: #06b6d4; /* 시안 */
+            --text-main: #0f172a; /* Slate 900 */
+            --text-body: #334155; /* Slate 700 */
+            --text-muted: #64748b; /* Slate 500 */
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-border: 1px solid rgba(255, 255, 255, 0.6);
+            --card-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08);
+        }
+
         /* 기본 스타일 및 폰트 설정 */
         * {
             box-sizing: border-box;
@@ -12,77 +29,150 @@
             padding: 0;
         }
         body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.8;
+            color: var(--text-body);
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+            letter-spacing: -0.02em;
+            word-break: keep-all;
         }
         
         /* 레이아웃 컨테이너 */
         .container {
-            max-width: 800px;
+            max-width: 760px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 60px 24px;
         }
 
         /* 프로필 헤더 영역 */
         .header {
             text-align: center;
-            background: #ffffff;
-            padding: 50px 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 60px 40px;
+            border-radius: 24px;
+            border: var(--card-border);
+            box-shadow: var(--card-shadow);
             margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
         }
+        /* 헤더 뒷배경에 감각적인 그라데이션 장식 추가 */
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(79,70,229,0.03) 0%, rgba(255,255,255,0) 70%);
+            pointer-events: none;
+        }
+
         .profile-img {
-            width: 150px;
-            height: 150px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid #eaeaea;
-            margin-bottom: 20px;
+            border: 4px solid #ffffff;
+            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.15);
+            margin-bottom: 28px;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        .profile-img:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
         .name {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #2c3e50;
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
+            color: var(--text-main);
         }
         .title {
-            font-size: 18px;
-            color: #7f8c8d;
-            margin-bottom: 20px;
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--primary);
+            margin-bottom: 28px;
         }
         .tagline {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 500;
-            color: #34495e;
-            background-color: #f1f2f6;
+            color: var(--text-body);
+            background: rgba(79, 70, 229, 0.06);
+            border: 1px solid rgba(79, 70, 229, 0.08);
             display: inline-block;
-            padding: 10px 20px;
-            border-radius: 30px;
+            padding: 12px 28px;
+            border-radius: 50px;
+            max-width: 90%;
+            line-height: 1.6;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
         }
 
         /* 콘텐츠 섹션 */
         .section {
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 48px;
+            border-radius: 24px;
+            border: var(--card-border);
+            box-shadow: var(--card-shadow);
             margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        .section:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px -15px rgba(15, 23, 42, 0.12);
+        }
+
         .section h2 {
-            font-size: 22px;
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            position: relative;
             display: inline-block;
+            padding-bottom: 6px;
         }
+        /* 감각적인 언더라인 이펙트 */
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
         .section p {
             font-size: 16px;
-            color: #555;
-            margin-bottom: 15px;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            text-align: justify;
+            text-justify: inter-character;
+            line-height: 1.8;
+        }
+        .section p:last-child {
+            margin-bottom: 0;
+        }
+        .section strong {
+            color: var(--primary);
+            font-weight: 700;
         }
         
         /* 리스트 스타일 */
@@ -90,17 +180,52 @@
             list-style-type: none;
         }
         ul li {
-            background: #f8f9fa;
-            margin-bottom: 10px;
-            padding: 15px 20px;
-            border-radius: 8px;
-            border-left: 4px solid #3498db;
+            background: rgba(255, 255, 255, 0.45);
+            margin-bottom: 16px;
+            padding: 20px 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-left: 4px solid var(--primary);
+            transition: all 0.2s ease;
+        }
+        ul li:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateX(4px);
+            border-left-color: var(--secondary);
+        }
+        ul li:last-child {
+            margin-bottom: 0;
         }
         ul li strong {
             display: block;
-            color: #2c3e50;
-            font-size: 17px;
-            margin-bottom: 5px;
+            color: var(--text-main);
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        /* 인포그래피 스타일 추가 */
+        .infographic-container {
+            margin-top: 32px;
+            text-align: center;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 30px rgba(79, 70, 229, 0.04);
+            background: rgba(255, 255, 255, 0.3);
+            padding: 10px;
+        }
+        .infographic-img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .infographic-container:hover .infographic-img {
+            transform: scale(1.015);
         }
     </style>
 </head>
@@ -133,6 +258,9 @@
                 개인의 고유한 경험과 철학이 탄탄한 비즈니스가 될 수 있도록 돕습니다.
             </li>
         </ul>
+        <div class="infographic-container">
+            <img src="brand_infographic.png" alt="브랜드 전략 & 1인 비즈니스 모델 구축 프로세스 인포그래피" class="infographic-img">
+        </div>
     </section>
 
     <section class="section">

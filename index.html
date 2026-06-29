@@ -392,7 +392,11 @@
     <div class="modal-content">
         <div class="modal-header">
             <span class="modal-title">가위바위보 AI 게임</span>
-            <button class="modal-close" onclick="closeGameModal()">&times;</button>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <!-- 브라우저 iframe 보안 정책으로 카메라 로드가 차단될 때를 대비해 새 창 열기 지원 -->
+                <a href="가위바위보_안티그.html" target="_blank" style="color: var(--secondary); text-decoration: none; font-size: 0.85rem; font-weight: 700; font-family: 'Outfit', 'Noto Sans KR', sans-serif; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='var(--secondary)'" onclick="closeGameModal()">[ 새 창에서 실행 ↗ ]</a>
+                <button class="modal-close" onclick="closeGameModal()">&times;</button>
+            </div>
         </div>
         <div class="modal-body">
             <iframe id="game-iframe" class="modal-iframe" src="" allow="camera"></iframe>

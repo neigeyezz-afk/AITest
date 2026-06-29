@@ -96,7 +96,7 @@
             transform: scale(0.98);
         }
 
-        /* 웹캠 컨테이너 - 4배 크기 및 중앙 배치 */
+        /* 웹캠 컨테이너 */
         #webcam-container {
             width: 270px;
             height: 270px;
@@ -274,6 +274,119 @@
             transform: scale(1.03);
             box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
         }
+
+        /* 카운트다운 오버레이 */
+        .countdown-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(9, 13, 22, 0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            color: var(--neon-blue);
+            text-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-purple);
+            z-index: 10;
+        }
+
+        /* 대결 결과 패널 */
+        .battle-panel {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 20px;
+            padding: 24px;
+            margin-top: 20px;
+            box-shadow: inset 0 0 20px rgba(99, 102, 241, 0.05);
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .battle-arena {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .arena-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 15px;
+            width: 120px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .card-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-bottom: 10px;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+        }
+
+        .arena-emoji {
+            font-size: 3rem;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+        }
+
+        .arena-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .vs-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--neon-pink);
+            text-shadow: 0 0 15px rgba(236, 72, 153, 0.6);
+        }
+
+        .battle-result {
+            font-size: 1.2rem;
+            font-weight: 700;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .result-win {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .result-lose {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            text-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+        }
+
+        .result-draw {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -314,15 +427,42 @@
     <h1>ROCK PAPER SCISSORS AI</h1>
     <div class="subtitle">Teachable Machine Image Model</div>
     
-    <button class="btn-start" type="button" onclick="showGuide()">덤벼라</button>
+    <!-- 덤벼라 버튼 -->
+    <button id="btn-start" class="btn-start" type="button" onclick="showGuide()">덤벼라</button>
+    
+    <!-- 대결하기 버튼 -->
+    <button id="btn-battle" class="btn-start" style="display: none; background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple)); box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);" type="button" onclick="startCountdown()">대결하기</button>
     
     <div id="webcam-container">
-        <!-- 웹캠 플레이스홀더 (시작 전 시각적 요소) -->
+        <!-- 웹캠 플레이스홀더 -->
         <div style="color: #475569; text-align: center; font-size: 0.9rem;" id="placeholder-text">
             [덤벼라] 버튼을 클릭해 카메라를 켜세요
         </div>
+        
+        <!-- 카운트다운 오버레이 -->
+        <div id="countdown-overlay" class="countdown-overlay"></div>
     </div>
+    
     <div id="label-container"></div>
+    
+    <!-- 대결 결과 패널 -->
+    <div id="battle-panel" class="battle-panel" style="display: none;">
+        <div class="battle-arena">
+            <div class="arena-card">
+                <div class="card-label">USER</div>
+                <div id="user-emoji" class="arena-emoji">✊</div>
+                <div id="user-text" class="arena-text">바위</div>
+            </div>
+            <div class="vs-text">VS</div>
+            <div class="arena-card">
+                <div class="card-label">PC</div>
+                <div id="pc-emoji" class="arena-emoji">✋</div>
+                <div id="pc-text" class="arena-text">보</div>
+            </div>
+        </div>
+        <div id="battle-result" class="battle-result">패배</div>
+        <button class="btn-start" style="margin-top: 10px; font-size: 1rem; padding: 10px 32px;" onclick="resetBattle()">다시 대결</button>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
@@ -331,6 +471,7 @@
     const URL = "https://teachablemachine.withgoogle.com/models/RAiSWZEwl/";
 
     let model, webcam, labelContainer, maxPredictions;
+    let currentPrediction = []; // 실시간 예측률 백업
 
     async function init() {
         const placeholder = document.getElementById("placeholder-text");
@@ -366,8 +507,13 @@
             window.requestAnimationFrame(loop);
 
             const container = document.getElementById("webcam-container");
-            container.innerHTML = ""; // 플레이스홀더 제거
+            const pText = document.getElementById("placeholder-text");
+            if (pText) pText.style.display = "none"; // 플레이스홀더 감추기
             container.appendChild(webcam.canvas);
+            
+            // 기존 덤벼라 버튼을 대결하기 버튼으로 변경
+            document.getElementById("btn-start").style.display = "none";
+            document.getElementById("btn-battle").style.display = "inline-block";
             
             labelContainer = document.getElementById("label-container");
             labelContainer.innerHTML = ""; // 기존 레이블 비우기
@@ -396,6 +542,8 @@
 
     async function predict() {
         const prediction = await model.predict(webcam.canvas);
+        currentPrediction = prediction; // 실시간 결과 백업
+        
         for (let i = 0; i < maxPredictions; i++) {
             const className = prediction[i].className;
             const probabilityVal = prediction[i].probability;
@@ -427,6 +575,107 @@
     async function startRealGame() {
         document.getElementById("guide-modal").style.display = "none";
         await init();
+    }
+
+    // 카운트다운 로직
+    let countdownInterval;
+    function startCountdown() {
+        // 이전 결과 숨기기
+        document.getElementById("battle-panel").style.display = "none";
+        document.getElementById("btn-battle").style.display = "none";
+        
+        const overlay = document.getElementById("countdown-overlay");
+        overlay.style.display = "flex";
+        
+        let count = 3;
+        overlay.innerText = count;
+        
+        countdownInterval = setInterval(() => {
+            count--;
+            if (count > 0) {
+                overlay.innerText = count;
+            } else if (count === 0) {
+                overlay.innerText = "GO!";
+            } else {
+                clearInterval(countdownInterval);
+                overlay.style.display = "none";
+                runBattle();
+            }
+        }, 1000);
+    }
+
+    // 결과 연산 및 매칭
+    function runBattle() {
+        let userChoice = null;
+        let maxProb = 0;
+        
+        // 70% 이상이고 가장 일치율이 높은 동작 선정
+        for (let i = 0; i < currentPrediction.length; i++) {
+            const className = currentPrediction[i].className;
+            const prob = currentPrediction[i].probability;
+            
+            if (prob >= 0.70 && className !== "선택안함" && prob > maxProb) {
+                userChoice = className;
+                maxProb = prob;
+            }
+        }
+        
+        const panel = document.getElementById("battle-panel");
+        
+        // 동작 미검출 핸들링
+        if (!userChoice) {
+            alert("동작이 70% 이상 확실하게 인식되지 않았습니다. 가위, 바위, 보 중 하나의 손 모양을 카메라 중앙에 대고 다시 시도해 주세요!");
+            document.getElementById("btn-battle").style.display = "inline-block";
+            return;
+        }
+        
+        // PC 무작위 램덤 선택
+        const choices = ["가위", "바위", "보"];
+        const pcChoice = choices[Math.floor(Math.random() * 3)];
+        
+        // 대결 연산
+        let result = "";
+        let resultClass = "";
+        if (userChoice === pcChoice) {
+            result = "무승부! 아쉽네요.";
+            resultClass = "result-draw";
+        } else if (
+            (userChoice === "가위" && pcChoice === "보") ||
+            (userChoice === "바위" && pcChoice === "가위") ||
+            (userChoice === "보" && pcChoice === "바위")
+        ) {
+            result = "VICTORY! 당신이 이겼습니다! 🎉";
+            resultClass = "result-win";
+        } else {
+            result = "DEFEAT... PC가 이겼습니다.";
+            resultClass = "result-lose";
+        }
+        
+        // 이모지 변환
+        const emojiMap = {
+            "가위": "✌️",
+            "바위": "✊",
+            "보": "✋"
+        };
+        
+        // UI 반영
+        document.getElementById("user-emoji").innerText = emojiMap[userChoice];
+        document.getElementById("user-text").innerText = userChoice;
+        
+        document.getElementById("pc-emoji").innerText = emojiMap[pcChoice];
+        document.getElementById("pc-text").innerText = pcChoice;
+        
+        const resultEl = document.getElementById("battle-result");
+        resultEl.innerText = result;
+        resultEl.className = "battle-result " + resultClass;
+        
+        panel.style.display = "block";
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function resetBattle() {
+        document.getElementById("battle-panel").style.display = "none";
+        document.getElementById("btn-battle").style.display = "inline-block";
     }
 </script>
 

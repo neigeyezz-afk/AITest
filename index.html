@@ -3,143 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>파이(p__ai) 프로필</title>
+    <title>Brandist Pi - Portfolio</title>
     <style>
-        /* 1. 기본 스타일 리셋 및 폰트 설정 */
+        /* 기본 스타일 및 폰트 설정 */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
         body {
-            font-family: 'Malgun Gothic', dotum, sans-serif;
-            background-color: #f8f9fa;
-            color: #333333;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        /* 레이아웃 컨테이너 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
             padding: 40px 20px;
         }
 
-        /* 2. 레이아웃 컨테이너 */
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        /* 3. 프로필 상단 (닉네임) */
-        .profile-header {
+        /* 프로필 헤더 영역 */
+        .header {
             text-align: center;
+            background: #ffffff;
+            padding: 50px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #edf2f7;
         }
-        .profile-header h1 {
-            font-size: 2rem;
-            color: #1a365d;
-            margin-bottom: 5px;
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #eaeaea;
+            margin-bottom: 20px;
         }
-        .profile-header .id {
-            font-size: 1.1rem;
-            color: #4a5568;
+        .name {
+            font-size: 28px;
             font-weight: bold;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        .title {
+            font-size: 18px;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        .tagline {
+            font-size: 18px;
+            font-weight: 500;
+            color: #34495e;
+            background-color: #f1f2f6;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 30px;
         }
 
-        /* 4. 섹션 공통 스타일 */
+        /* 콘텐츠 섹션 */
         .section {
-            margin-bottom: 35px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
         }
         .section h2 {
-            font-size: 1.3rem;
-            color: #2b6cb0;
+            font-size: 22px;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .section p {
+            font-size: 16px;
+            color: #555;
             margin-bottom: 15px;
-            position: relative;
-            padding-left: 10px;
         }
-        /* 제목 왼쪽에 작은 세로선 포인트 */
-        .section h2::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 4px;
-            width: 4px;
-            height: 18px;
-            background-color: #2b6cb0;
-            border-radius: 2px;
+        
+        /* 리스트 스타일 */
+        ul {
+            list-style-type: none;
         }
-
-        /* 5. 리스트 스타일 정리 */
-        .section ul {
-            list-style: none; /* 기본 점 숨기기 */
+        ul li {
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
         }
-        .section ul li {
-            margin-bottom: 12px;
-            padding-left: 15px;
-            position: relative;
-        }
-        /* 대시(-) 모양 커스텀 불릿 */
-        .section ul li::before {
-            content: "-";
-            position: absolute;
-            left: 0;
-            color: #718096;
-        }
-
-        /* 강조 텍스트 및 서브 텍스트 */
-        .highlight {
-            font-weight: bold;
-            color: #1a365d;
-        }
-        .sub-text {
+        ul li strong {
             display: block;
-            font-size: 0.9rem;
-            color: #718096;
-            margin-top: 4px;
-            background-color: #f7fafc;
-            padding: 6px 12px;
-            border-radius: 6px;
-            border-left: 3px solid #e2e8f0;
+            color: #2c3e50;
+            font-size: 17px;
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header class="profile-header">
-            <h1>파이</h1>
-            <p class="id">p__ai</p>
-        </header>
+<div class="container">
+    
+    <header class="header">
+        <img src="hj01.jpg" alt="브랜디스트 파이" class="profile-img">
+        <h1 class="name">파이 (Pi)</h1>
+        <p class="title">Brandist | 브랜드 컨설턴트</p>
+        <p class="tagline">"브랜드의 진짜 가치를 발굴하고, 지속 가능한 1인 비즈니스의 길을 엽니다."</p>
+    </header>
 
-        <section class="section">
-            <h2>탄생비화 & 의미</h2>
-            <ul>
-                <li><span class="highlight">탄생비화:</span> 눈 앞에 펼쳐져 있던 교재, 파이썬(Python)을 보고 작명.</li>
-                <li><span class="highlight">영문표기:</span> Python의 "Py" 대신 동음의 "PAI"로 표기.</li>
-                <li><span class="highlight">의미부여:</span> 폴리텍(Polytechnics)의 <span class="highlight">P</span>와 <span class="highlight">AI</span>를 결합하여, 폴리텍(P) 대학에서 (AI) 과정을 수강하는 나(<span class="highlight">I</span>)를 나타냄.</li>
-            </ul>
-        </section>
+    <section class="section">
+        <h2>About Me</h2>
+        <p>카피라이터로 시작해 AE, 크리에이티브 디렉터(CD)를 거치며 수많은 브랜드의 탄생과 성장을 지켜봤습니다.</p>
+        <p>기획의 최전선에서 쌓아온 경험을 압축하여, 이제는 브랜드의 핵심을 찌르는 컨설턴트 <strong>'브랜디스트(Brandist)'</strong>로 활동하고 있습니다.</p>
+    </section>
 
-        <section class="section">
-            <h2>본 과정 지원 동기</h2>
-            <ul>
-                <li>시대 흐름에 올라타기 위해.</li>
-                <li>
-                    단순 수용자 수준을 넘어, 능동 활용자로.
-                    <span class="sub-text">💡 How? 우리는 AI 마스터 과정</span>
-                </li>
-            </ul>
-        </section>
+    <section class="section">
+        <h2>Core Expertise</h2>
+        <ul>
+            <li>
+                <strong>Brand Marketing Strategy</strong>
+                본질을 잃지 않으면서도 시장에서 살아남고 사랑받는 실전 브랜딩 전략을 기획합니다.
+            </li>
+            <li>
+                <strong>Solo-BM (1인 비즈니스 모델 구축)</strong>
+                개인의 고유한 경험과 철학이 탄탄한 비즈니스가 될 수 있도록 돕습니다.
+            </li>
+        </ul>
+    </section>
 
-        <section class="section">
-            <h2>본 과정을 마치고 난 후 기대하는 바</h2>
-            <ul>
-                <li><span class="highlight">스킬 스택 확장:</span> 기존 업무 능력(마케팅, 기획, 크리에이티브) + AI</li>
-                <li><span class="highlight">'AI 융합 브랜디스트'</span> 등과 같은 새로운 형태의 인재 모델 모색.</li>
-            </ul>
-        </section>
-    </div>
+    <section class="section">
+        <h2>Creative Playground</h2>
+        <p>좋은 브랜드는 결국 '좋은 이야기'에서 나옵니다. 글쓰기를 통해 생각을 정제하고, 사진 촬영과 후보정을 통해 세상을 저만의 시선으로 기록합니다. 이 모든 활동은 제 브랜딩의 든든한 자양분이 됩니다.</p>
+    </section>
+
+</div>
 
 </body>
 </html>

@@ -28,6 +28,9 @@
             margin: 0;
             padding: 0;
         }
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             line-height: 1.8;
@@ -129,6 +132,7 @@
             box-shadow: var(--card-shadow);
             margin-bottom: 30px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            scroll-margin-top: 40px; /* 스크롤 시 위쪽 여백 확보 */
         }
         .section:hover {
             transform: translateY(-4px);
@@ -227,6 +231,113 @@
         .infographic-container:hover .infographic-img {
             transform: scale(1.015);
         }
+
+        /* 네비게이션 스타일 추가 */
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(79, 70, 229, 0.15);
+            padding: 10px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.05);
+        }
+        .nav-btn:hover {
+            color: #ffffff;
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.2);
+        }
+
+        /* 모달 팝업 스타일 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background: rgba(17, 24, 39, 0.95);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 24px;
+            width: 90%;
+            max-width: 960px;
+            height: 90vh;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-header {
+            padding: 16px 24px;
+            background: rgba(31, 41, 55, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-title {
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 32px;
+            line-height: 1;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .modal-close:hover {
+            color: #ffffff;
+        }
+        .modal-body {
+            flex-grow: 1;
+            width: 100%;
+            height: 100%;
+            background: #090d16;
+        }
+        .modal-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -238,15 +349,21 @@
         <h1 class="name">파이 (Pi)</h1>
         <p class="title">Brandist | 브랜드 컨설턴트</p>
         <p class="tagline">"브랜드의 진짜 가치를 발굴하고, 지속 가능한 1인 비즈니스의 길을 엽니다."</p>
+        <nav class="nav-menu">
+            <a href="#about" class="nav-btn">About Me</a>
+            <a href="#expertise" class="nav-btn">Core Expertise</a>
+            <a href="#playground" class="nav-btn">Creative Playground</a>
+            <a href="../가위바위보_안티그.html" class="nav-btn" onclick="openGameModal(event)">Game</a>
+        </nav>
     </header>
 
-    <section class="section">
+    <section class="section" id="about">
         <h2>About Me</h2>
         <p>카피라이터로 시작해 AE, 크리에이티브 디렉터(CD)를 거치며 수많은 브랜드의 탄생과 성장을 지켜봤습니다.</p>
         <p>기획의 최전선에서 쌓아온 경험을 압축하여, 이제는 브랜드의 핵심을 찌르는 컨설턴트 <strong>'브랜디스트(Brandist)'</strong>로 활동하고 있습니다.</p>
     </section>
 
-    <section class="section">
+    <section class="section" id="expertise">
         <h2>Core Expertise</h2>
         <ul>
             <li>
@@ -263,12 +380,56 @@
         </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="playground">
         <h2>Creative Playground</h2>
         <p>좋은 브랜드는 결국 '좋은 이야기'에서 나옵니다. 글쓰기를 통해 생각을 정제하고, 사진 촬영과 후보정을 통해 세상을 저만의 시선으로 기록합니다. 이 모든 활동은 제 브랜딩의 든든한 자양분이 됩니다.</p>
     </section>
 
 </div>
+
+<!-- 게임 실행 모달 -->
+<div id="game-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="modal-title">가위바위보 AI 게임</span>
+            <button class="modal-close" onclick="closeGameModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <iframe id="game-iframe" class="modal-iframe" src="" allow="camera"></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openGameModal(event) {
+        event.preventDefault();
+        const modal = document.getElementById("game-modal");
+        const iframe = document.getElementById("game-iframe");
+        
+        // 모달 열고 게임 실행 (카메라 기능 대응)
+        iframe.src = "../가위바위보_안티그.html";
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden"; // 배경 스크롤 차단
+    }
+
+    function closeGameModal() {
+        const modal = document.getElementById("game-modal");
+        const iframe = document.getElementById("game-iframe");
+        
+        // 모달 닫을 때 카메라 자원 회수를 위해 src를 비움
+        iframe.src = "";
+        modal.classList.remove("active");
+        document.body.style.overflow = ""; // 배경 스크롤 허용
+    }
+
+    // 모달 외부 클릭 시 닫기
+    window.onclick = function(event) {
+        const modal = document.getElementById("game-modal");
+        if (event.target == modal) {
+            closeGameModal();
+        }
+    }
+</script>
 
 </body>
 </html>

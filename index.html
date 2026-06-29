@@ -1,8 +1,145 @@
-<HTML>
-  <head>
-    <title>메인페이지</title>
-  </head>
-  <body>
-    <h2>메인페이지입니다...</h2>
-  </body>
-</HTML>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이(p__ai) 프로필</title>
+    <style>
+        /* 1. 기본 스타일 리셋 및 폰트 설정 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Malgun Gothic', dotum, sans-serif;
+            background-color: #f8f9fa;
+            color: #333333;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        /* 2. 레이아웃 컨테이너 */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 3. 프로필 상단 (닉네임) */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #edf2f7;
+        }
+        .profile-header h1 {
+            font-size: 2rem;
+            color: #1a365d;
+            margin-bottom: 5px;
+        }
+        .profile-header .id {
+            font-size: 1.1rem;
+            color: #4a5568;
+            font-weight: bold;
+        }
+
+        /* 4. 섹션 공통 스타일 */
+        .section {
+            margin-bottom: 35px;
+        }
+        .section h2 {
+            font-size: 1.3rem;
+            color: #2b6cb0;
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 10px;
+        }
+        /* 제목 왼쪽에 작은 세로선 포인트 */
+        .section h2::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 4px;
+            width: 4px;
+            height: 18px;
+            background-color: #2b6cb0;
+            border-radius: 2px;
+        }
+
+        /* 5. 리스트 스타일 정리 */
+        .section ul {
+            list-style: none; /* 기본 점 숨기기 */
+        }
+        .section ul li {
+            margin-bottom: 12px;
+            padding-left: 15px;
+            position: relative;
+        }
+        /* 대시(-) 모양 커스텀 불릿 */
+        .section ul li::before {
+            content: "-";
+            position: absolute;
+            left: 0;
+            color: #718096;
+        }
+
+        /* 강조 텍스트 및 서브 텍스트 */
+        .highlight {
+            font-weight: bold;
+            color: #1a365d;
+        }
+        .sub-text {
+            display: block;
+            font-size: 0.9rem;
+            color: #718096;
+            margin-top: 4px;
+            background-color: #f7fafc;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border-left: 3px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="profile-header">
+            <h1>파이</h1>
+            <p class="id">p__ai</p>
+        </header>
+
+        <section class="section">
+            <h2>탄생비화 & 의미</h2>
+            <ul>
+                <li><span class="highlight">탄생비화:</span> 눈 앞에 펼쳐져 있던 교재, 파이썬(Python)을 보고 작명.</li>
+                <li><span class="highlight">영문표기:</span> Python의 "Py" 대신 동음의 "PAI"로 표기.</li>
+                <li><span class="highlight">의미부여:</span> 폴리텍(Polytechnics)의 <span class="highlight">P</span>와 <span class="highlight">AI</span>를 결합하여, 폴리텍(P) 대학에서 (AI) 과정을 수강하는 나(<span class="highlight">I</span>)를 나타냄.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>본 과정 지원 동기</h2>
+            <ul>
+                <li>시대 흐름에 올라타기 위해.</li>
+                <li>
+                    단순 수용자 수준을 넘어, 능동 활용자로.
+                    <span class="sub-text">💡 How? 우리는 AI 마스터 과정</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>본 과정을 마치고 난 후 기대하는 바</h2>
+            <ul>
+                <li><span class="highlight">스킬 스택 확장:</span> 기존 업무 능력(마케팅, 기획, 크리에이티브) + AI</li>
+                <li><span class="highlight">'AI 융합 브랜디스트'</span> 등과 같은 새로운 형태의 인재 모델 모색.</li>
+            </ul>
+        </section>
+    </div>
+
+</body>
+</html>

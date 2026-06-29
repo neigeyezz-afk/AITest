@@ -172,15 +172,149 @@
             text-align: right;
             color: var(--neon-blue);
         }
+
+        /* 가이드 모달 스타일 추가 */
+        .guide-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(9, 13, 22, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .guide-content {
+            background: rgba(17, 24, 39, 0.85);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(6, 182, 212, 0.15);
+        }
+        .guide-content h2 {
+            font-family: 'Orbitron', 'Noto Sans KR', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.1em;
+            font-weight: 900;
+        }
+        .guide-intro {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        .guide-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px 10px;
+            transition: transform 0.2s ease;
+        }
+        .guide-item:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .guide-emoji {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .guide-item h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+        .guide-item p {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+        .guide-tip {
+            background: rgba(6, 182, 212, 0.08);
+            border: 1px solid rgba(6, 182, 212, 0.15);
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            text-align: left;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .btn-guide-start {
+            font-family: 'Orbitron', 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            color: #ffffff;
+            border: none;
+            padding: 14px 36px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-guide-start:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+        }
     </style>
 </head>
 <body>
+
+<!-- 게임 가이드 모달 -->
+<div id="guide-modal" class="guide-overlay" style="display: none;">
+    <div class="guide-content">
+        <h2>HOW TO PLAY</h2>
+        <p class="guide-intro">가위바위보 AI 게임을 시작하기 전에 아래 손 모양을 확인해 주세요.</p>
+        
+        <div class="guide-grid">
+            <div class="guide-item">
+                <span class="guide-emoji">✌️</span>
+                <h3>가위 (Scissors)</h3>
+                <p>검지와 중지를 V자로 펼쳐 주세요.</p>
+            </div>
+            <div class="guide-item">
+                <span class="guide-emoji">✊</span>
+                <h3>바위 (Rock)</h3>
+                <p>주먹을 꽉 쥐어 주세요.</p>
+            </div>
+            <div class="guide-item">
+                <span class="guide-emoji">✋</span>
+                <h3>보 (Paper)</h3>
+                <p>손바닥을 활짝 펴 주세요.</p>
+            </div>
+        </div>
+        
+        <div class="guide-tip">
+            💡 <strong>인식률 높이는 Tip:</strong> 손이 카메라 화면 중앙에 잘 보이도록 위치시키고, 어둡거나 복잡한 배경을 피해 주시면 정확하게 인식합니다!
+        </div>
+        
+        <button class="btn-guide-start" onclick="startRealGame()">카메라 켜고 시작하기</button>
+    </div>
+</div>
 
 <div class="game-card">
     <h1>ROCK PAPER SCISSORS AI</h1>
     <div class="subtitle">Teachable Machine Image Model</div>
     
-    <button class="btn-start" type="button" onclick="init()">덤벼라</button>
+    <button class="btn-start" type="button" onclick="showGuide()">덤벼라</button>
     
     <div id="webcam-container">
         <!-- 웹캠 플레이스홀더 (시작 전 시각적 요소) -->
@@ -200,27 +334,58 @@
 
     async function init() {
         const placeholder = document.getElementById("placeholder-text");
-        if (placeholder) placeholder.innerText = "카메라를 준비하고 모델을 가져오는 중...";
+        if (placeholder) placeholder.innerText = "모델을 불러오고 카메라를 초기화하는 중...";
 
-        const modelURL = URL + "model.json";
-        const metadataURL = URL + "metadata.json";
+        try {
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
 
-        model = await tmImage.load(modelURL, metadataURL);
-        maxPredictions = model.getTotalClasses();
+            // 1. 모델 로드 시도
+            try {
+                model = await tmImage.load(modelURL, metadataURL);
+                maxPredictions = model.getTotalClasses();
+            } catch (modelError) {
+                console.error("Model load failed:", modelError);
+                throw new Error("AI 모델 로딩에 실패했습니다. 인터넷 연결 상태를 확인해 주세요.");
+            }
 
-        // 캠 크기를 1/3 크기인 270x270으로 축소
-        const flip = true; 
-        webcam = new tmImage.Webcam(270, 270, flip); 
-        await webcam.setup(); 
-        await webcam.play();
-        window.requestAnimationFrame(loop);
+            if (placeholder) placeholder.innerText = "카메라 장치 연결 및 권한 확인 중...";
 
-        const container = document.getElementById("webcam-container");
-        container.innerHTML = ""; // 플레이스홀더 제거
-        container.appendChild(webcam.canvas);
-        
-        labelContainer = document.getElementById("label-container");
-        labelContainer.innerHTML = ""; // 기존 레이블 비우기
+            // 2. 웹캠 셋업 시도
+            const flip = true; 
+            webcam = new tmImage.Webcam(270, 270, flip); 
+            
+            try {
+                await webcam.setup(); // request access to the webcam
+            } catch (webcamError) {
+                console.error("Webcam setup failed:", webcamError);
+                throw new Error("카메라 접근이 거부되었거나 사용 가능한 카메라 기기가 없습니다. 브라우저 주소창 왼쪽의 자물쇠/카메라 아이콘을 클릭하여 카메라 권한을 '허용'으로 변경해 주세요. (로컬 파일이나 일부 보안 환경의 iframe 내부에서는 차단될 수 있습니다.)");
+            }
+
+            await webcam.play();
+            window.requestAnimationFrame(loop);
+
+            const container = document.getElementById("webcam-container");
+            container.innerHTML = ""; // 플레이스홀더 제거
+            container.appendChild(webcam.canvas);
+            
+            labelContainer = document.getElementById("label-container");
+            labelContainer.innerHTML = ""; // 기존 레이블 비우기
+            
+        } catch (error) {
+            console.error("Init game failed:", error);
+            if (placeholder) {
+                placeholder.innerHTML = `
+                    <div style="color: #ef4444; padding: 15px; font-weight: 700; line-height: 1.6; text-align: center;">
+                        ⚠️ 실행 실패<br>
+                        <span style="font-size: 0.85rem; font-weight: normal; color: #94a3b8; display: block; margin-top: 10px; text-align: justify; text-justify: inter-character; word-break: keep-all;">
+                            ${error.message}
+                        </span>
+                        <button class="btn-start" style="padding: 10px 24px; font-size: 0.9rem; margin-top: 20px; display: inline-block;" type="button" onclick="showGuide()">다시 시도</button>
+                    </div>
+                `;
+            }
+        }
     }
 
     async function loop() {
@@ -253,6 +418,15 @@
             bar.querySelector(".progress-fill").style.width = probability + "%";
             bar.querySelector(".percentage").innerText = probability + "%";
         }
+    }
+
+    function showGuide() {
+        document.getElementById("guide-modal").style.display = "flex";
+    }
+
+    async function startRealGame() {
+        document.getElementById("guide-modal").style.display = "none";
+        await init();
     }
 </script>
 

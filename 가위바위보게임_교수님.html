@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>가위바위보 AI 게임</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; background-color: #f4f7f6; padding: 20px; }
+        .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; width: 100%; max-width: 400px; }
+        button { padding: 12px 24px; font-size: 16px; cursor: pointer; background-color: #4a90e2; color: white; border: none; border-radius: 8px; margin-bottom: 20px; }
+        #webcam-container { margin: 0 auto 20px auto; width: 300px; height: 300px; border-radius: 10px; overflow: hidden; border: 4px solid #eee; }
+        #result-display { margin-top: 20px; padding: 15px; border-radius: 8px; font-weight: bold; background: #f0f0f0; height: 50px; display: flex; align-items: center; justify-content: center; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>AI 가위바위보</h1>
+        <button id="btn-start" onclick="startCamera()">게임 시작</button>
+        
+        <div id="game-area" class="hidden">
+            <div id="webcam-container"></div>
+            <div id="result-display">손을 카메라 앞에 보여주세요!</div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    
+    <script type="text/javascript">
+        const URL = "https://teachablemachine.withgoogle.com/models/RAiSWZEwl/";
+        let model, webcam, isPlaying = false;
+
+        async function startCamera() {
+            document.getElementById("btn-start").style.display = "none";
+            document.getElementById("game-area").classList.remove("hidden");
+            
+            model = await tmImage.load(URL + "model.json", URL + "metadata.json");
+            webcam = new tmImage.Webcam(300, 300, true);
+            await webcam.setup();
+            await webcam.play();
+            document.getElementById("webcam-container").appendChild(webcam.canvas);
+            
+            isPlaying = true;
+            window.requestAnimationFrame(loop);
+        }
+
+        async function loop() {
+            if (isPlaying) {
+                webcam.update();
+                const prediction = await model.predict(webcam.canvas);
+                checkResult(prediction);
+            }
+            window.requestAnimationFrame(loop);
+        }
+
+        function checkResult(prediction) {
+            // 인식률 80% 이상으로 강화
+            const userChoice = prediction.find(p => p.probability >= 0.80);
+            
+            if (userChoice) {
+                isPlaying = false; // 인식 일시정지
+                
+                const choices = ["가위", "바위", "보"];
+                const pcChoice = choices[Math.floor(Math.random() * 3)];
+                const user = userChoice.className;
+                
+                let result = `나: ${user} vs PC: ${pcChoice} | `;
+                if (user === pcChoice) result += "비겼습니다!";
+                else if ((user === "가위" && pcChoice === "보") || (user === "바위" && pcChoice === "가위") || (user === "보" && pcChoice === "바위")) 
+                    result += "당신의 승리! 🎉";
+                else result += "컴퓨터의 승리...";
+
+                document.getElementById("result-display").innerText = result;
+                
+                // 3초 뒤 자동 재시작
+                setTimeout(() => {
+                    if (document.getElementById("game-area").classList.contains("hidden") === false) {
+                        document.getElementById("result-display").innerText = "다시 손을 보여주세요!";
+                        isPlaying = true;
+                    }
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>

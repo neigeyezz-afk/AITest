@@ -235,9 +235,15 @@
         /* 네비게이션 스타일 추가 */
         .nav-menu {
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-top: 32px;
+        }
+        .nav-row {
+            display: flex;
             justify-content: center;
             gap: 16px;
-            margin-top: 32px;
             flex-wrap: wrap;
         }
         .nav-btn {
@@ -345,15 +351,20 @@
 <div class="container">
     
     <header class="header">
-        <img src="hj01.jpg" alt="브랜디스트 파이" class="profile-img">
+        <img src="images/my01.jpg" alt="브랜디스트 파이" class="profile-img">
         <h1 class="name">파이 (Pi)</h1>
         <p class="title">Brandist | 브랜드 컨설턴트</p>
         <p class="tagline">"브랜드의 진짜 가치를 발굴하고, 지속 가능한 1인 비즈니스의 길을 엽니다."</p>
         <nav class="nav-menu">
-            <a href="#about" class="nav-btn">About Me</a>
-            <a href="#expertise" class="nav-btn">Core Expertise</a>
-            <a href="#playground" class="nav-btn">Creative Playground</a>
-            <a href="가위바위보_안티그.html" class="nav-btn" onclick="openGameModal(event)">Game</a>
+            <div class="nav-row">
+                <a href="#about" class="nav-btn">About Me</a>
+                <a href="#expertise" class="nav-btn">Core Expertise</a>
+                <a href="#playground" class="nav-btn">Creative Playground</a>
+            </div>
+            <div class="nav-row">
+                <a href="가위바위보게임_교수님.html" class="nav-btn" onclick="openGameModal(event, '가위바위보게임_교수님.html', '가위바위보 AI 게임 (Easy)')">Game easy</a>
+                <a href="가위바위보_안티그.html" class="nav-btn" onclick="openGameModal(event, '가위바위보_안티그.html', '가위바위보 AI 게임 (Hard)')">Game hard</a>
+            </div>
         </nav>
     </header>
 
@@ -376,7 +387,7 @@
             </li>
         </ul>
         <div class="infographic-container">
-            <img src="brand_infographic.png" alt="브랜드 전략 & 1인 비즈니스 모델 구축 프로세스 인포그래피" class="infographic-img">
+            <img src="images/roadmmap.png" alt="브랜드 전략 & 1인 비즈니스 모델 구축 프로세스 인포그래피" class="infographic-img">
         </div>
     </section>
 
@@ -391,10 +402,10 @@
 <div id="game-modal" class="modal-overlay">
     <div class="modal-content">
         <div class="modal-header">
-            <span class="modal-title">가위바위보 AI 게임</span>
+            <span id="game-modal-title" class="modal-title">가위바위보 AI 게임</span>
             <div style="display: flex; align-items: center; gap: 16px;">
                 <!-- 브라우저 iframe 보안 정책으로 카메라 로드가 차단될 때를 대비해 새 창 열기 지원 -->
-                <a href="가위바위보_안티그.html" target="_blank" style="color: var(--secondary); text-decoration: none; font-size: 0.85rem; font-weight: 700; font-family: 'Outfit', 'Noto Sans KR', sans-serif; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='var(--secondary)'" onclick="closeGameModal()">[ 새 창에서 실행 ↗ ]</a>
+                <a id="game-modal-link" href="가위바위보_안티그.html" target="_blank" style="color: var(--secondary); text-decoration: none; font-size: 0.85rem; font-weight: 700; font-family: 'Outfit', 'Noto Sans KR', sans-serif; transition: color 0.2s;" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='var(--secondary)'" onclick="closeGameModal()">[ 새 창에서 실행 ↗ ]</a>
                 <button class="modal-close" onclick="closeGameModal()">&times;</button>
             </div>
         </div>
@@ -405,13 +416,21 @@
 </div>
 
 <script>
-    function openGameModal(event) {
+    function openGameModal(event, gameUrl, gameTitle) {
         event.preventDefault();
         const modal = document.getElementById("game-modal");
         const iframe = document.getElementById("game-iframe");
+        const modalTitle = document.getElementById("game-modal-title");
+        const modalLink = document.getElementById("game-modal-link");
         
         // 모달 열고 게임 실행 (카메라 기능 대응)
-        iframe.src = "가위바위보_안티그.html";
+        iframe.src = gameUrl;
+        if (modalTitle && gameTitle) {
+            modalTitle.textContent = gameTitle;
+        }
+        if (modalLink) {
+            modalLink.href = gameUrl;
+        }
         modal.classList.add("active");
         document.body.style.overflow = "hidden"; // 배경 스크롤 차단
     }

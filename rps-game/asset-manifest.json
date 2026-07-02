@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/AITest/rps-game/static/css/main.ee34e2db.css",
+    "main.js": "/AITest/rps-game/static/js/main.28c0bdf2.js",
+    "static/js/453.3ee4e66e.chunk.js": "/AITest/rps-game/static/js/453.3ee4e66e.chunk.js",
+    "index.html": "/AITest/rps-game/index.html",
+    "main.ee34e2db.css.map": "/AITest/rps-game/static/css/main.ee34e2db.css.map",
+    "main.28c0bdf2.js.map": "/AITest/rps-game/static/js/main.28c0bdf2.js.map",
+    "453.3ee4e66e.chunk.js.map": "/AITest/rps-game/static/js/453.3ee4e66e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ee34e2db.css",
+    "static/js/main.28c0bdf2.js"
+  ]
+}
